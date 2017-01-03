@@ -88,31 +88,20 @@ void loop() {
 }
 
 void handleCommand() {
-  String message = "Command Sent\n\n";
-
   String command = "" + server.arg("command");
     
   if (strcmp(command.c_str(), "up") == 0) {
     sendPreambleAndCommand(SOMFY_BUTTON_UP);
+    server.send(200, "text/plain", "Command UP Sent\n");
   } else if (strcmp(command.c_str(), "down") == 0) {
     sendPreambleAndCommand(SOMFY_BUTTON_DOWN);
+    server.send(200, "text/plain", "Command DOWN Sent\n");
   } else if (strcmp(command.c_str(), "pause") == 0) {
     sendPreambleAndCommand(SOMFY_BUTTON_PAUSE);
+    server.send(200, "text/plain", "Command PAUSE Sent\n");
+  } else {
+    server.send(404, "text/plain", "Invalid Command\n");
   }
-  /*
-  message += "URI: ";
-  message += server.uri();
-  message += "\nMethod: ";
-  message += (server.method() == HTTP_GET) ? "GET" : "POST";
-  message += "\nArguments: ";
-  message += server.args();
-  message += "\n";
-  for (uint8_t i = 0; i < server.args(); i++) {
-    message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
-  }
-  */
-  
-  server.send(404, "text/plain", message);
 }
 
 void handleRoot() {
